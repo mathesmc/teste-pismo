@@ -3,6 +3,7 @@ package database
 import (
 	"context"
 	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -31,6 +32,8 @@ func TestShowAccount(t *testing.T) {
 }
 
 func createRandomAccount() (a Account, e error) {
-	a, e = testQueries.CreateAccount(context.Background(), rand.Int63n(999999))
+
+	dn := strconv.Itoa(rand.Intn(999999))
+	a, e = testQueries.CreateAccount(context.Background(), dn)
 	return
 }

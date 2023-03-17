@@ -1,6 +1,6 @@
 INSERT INTO "accounts" (
   document_number
-) VALUES (1234568900);
+) VALUES ('1234568900');
 
 INSERT INTO "operation_types" (
    description, multiplier
