@@ -9,7 +9,7 @@ import (
 )
 
 type Querier interface {
-	CreateAccount(ctx context.Context, documentNumber int64) (Account, error)
+	CreateAccount(ctx context.Context, documentNumber string) (Account, error)
 	CreateOperationType(ctx context.Context, arg CreateOperationTypeParams) (OperationType, error)
 	CreateTransactions(ctx context.Context, arg CreateTransactionsParams) (Transaction, error)
 	DropAccount(ctx context.Context, id int64) error

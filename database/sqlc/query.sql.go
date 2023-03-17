@@ -18,7 +18,7 @@ INSERT INTO accounts (
 RETURNING id, document_number, created_at, updated_at
 `
 
-func (q *Queries) CreateAccount(ctx context.Context, documentNumber int64) (Account, error) {
+func (q *Queries) CreateAccount(ctx context.Context, documentNumber string) (Account, error) {
 	row := q.queryRow(ctx, q.createAccountStmt, createAccount, documentNumber)
 	var i Account
 	err := row.Scan(

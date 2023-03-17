@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS "accounts" (
   "id" bigserial PRIMARY KEY,
-  "document_number" bigint NOT NULL UNIQUE,
+  "document_number" varchar(50) NOT NULL UNIQUE,
   "created_at" timestamp DEFAULT (now()),
   "updated_at" timestamp DEFAULT (now())
 );
