@@ -2,7 +2,7 @@
 // versions:
 //   sqlc v1.17.0
 
-package main
+package database
 
 import (
 	"database/sql"
@@ -12,18 +12,23 @@ type Account struct {
 	ID             int64        `json:"id"`
 	DocumentNumber int64        `json:"document_number"`
 	CreatedAt      sql.NullTime `json:"created_at"`
+	UpdatedAt      sql.NullTime `json:"updated_at"`
 }
 
 type OperationType struct {
 	ID          int64        `json:"id"`
+	Multiplier  int32        `json:"multiplier"`
 	Description string       `json:"description"`
 	CreatedAt   sql.NullTime `json:"created_at"`
+	UpdatedAt   sql.NullTime `json:"updated_at"`
 }
 
 type Transaction struct {
 	ID              int64        `json:"id"`
 	AccountID       int32        `json:"account_id"`
 	OperationTypeID int32        `json:"operation_type_id"`
-	Amount          int64        `json:"amount"`
+	Amount          float64      `json:"amount"`
 	EventDate       sql.NullTime `json:"event_date"`
+	CreatedAt       sql.NullTime `json:"created_at"`
+	UpdatedAt       sql.NullTime `json:"updated_at"`
 }

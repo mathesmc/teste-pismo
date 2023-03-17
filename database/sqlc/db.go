@@ -2,7 +2,7 @@
 // versions:
 //   sqlc v1.17.0
 
-package main
+package database
 
 import (
 	"context"
@@ -27,11 +27,26 @@ func Prepare(ctx context.Context, db DBTX) (*Queries, error) {
 	if q.createAccountStmt, err = db.PrepareContext(ctx, createAccount); err != nil {
 		return nil, fmt.Errorf("error preparing query CreateAccount: %w", err)
 	}
+	if q.createOperationTypeStmt, err = db.PrepareContext(ctx, createOperationType); err != nil {
+		return nil, fmt.Errorf("error preparing query CreateOperationType: %w", err)
+	}
 	if q.createTransactionsStmt, err = db.PrepareContext(ctx, createTransactions); err != nil {
 		return nil, fmt.Errorf("error preparing query CreateTransactions: %w", err)
 	}
+	if q.dropAccountStmt, err = db.PrepareContext(ctx, dropAccount); err != nil {
+		return nil, fmt.Errorf("error preparing query DropAccount: %w", err)
+	}
+	if q.dropOperationTypeStmt, err = db.PrepareContext(ctx, dropOperationType); err != nil {
+		return nil, fmt.Errorf("error preparing query DropOperationType: %w", err)
+	}
+	if q.dropTransactionStmt, err = db.PrepareContext(ctx, dropTransaction); err != nil {
+		return nil, fmt.Errorf("error preparing query DropTransaction: %w", err)
+	}
 	if q.getAccountStmt, err = db.PrepareContext(ctx, getAccount); err != nil {
 		return nil, fmt.Errorf("error preparing query GetAccount: %w", err)
+	}
+	if q.getOperationTypesStmt, err = db.PrepareContext(ctx, getOperationTypes); err != nil {
+		return nil, fmt.Errorf("error preparing query GetOperationTypes: %w", err)
 	}
 	if q.getTransactionsStmt, err = db.PrepareContext(ctx, getTransactions); err != nil {
 		return nil, fmt.Errorf("error preparing query GetTransactions: %w", err)
@@ -46,14 +61,39 @@ func (q *Queries) Close() error {
 			err = fmt.Errorf("error closing createAccountStmt: %w", cerr)
 		}
 	}
+	if q.createOperationTypeStmt != nil {
+		if cerr := q.createOperationTypeStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing createOperationTypeStmt: %w", cerr)
+		}
+	}
 	if q.createTransactionsStmt != nil {
 		if cerr := q.createTransactionsStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing createTransactionsStmt: %w", cerr)
 		}
 	}
+	if q.dropAccountStmt != nil {
+		if cerr := q.dropAccountStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing dropAccountStmt: %w", cerr)
+		}
+	}
+	if q.dropOperationTypeStmt != nil {
+		if cerr := q.dropOperationTypeStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing dropOperationTypeStmt: %w", cerr)
+		}
+	}
+	if q.dropTransactionStmt != nil {
+		if cerr := q.dropTransactionStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing dropTransactionStmt: %w", cerr)
+		}
+	}
 	if q.getAccountStmt != nil {
 		if cerr := q.getAccountStmt.Close(); cerr != nil {
 			err = fmt.Errorf("error closing getAccountStmt: %w", cerr)
+		}
+	}
+	if q.getOperationTypesStmt != nil {
+		if cerr := q.getOperationTypesStmt.Close(); cerr != nil {
+			err = fmt.Errorf("error closing getOperationTypesStmt: %w", cerr)
 		}
 	}
 	if q.getTransactionsStmt != nil {
@@ -98,21 +138,31 @@ func (q *Queries) queryRow(ctx context.Context, stmt *sql.Stmt, query string, ar
 }
 
 type Queries struct {
-	db                     DBTX
-	tx                     *sql.Tx
-	createAccountStmt      *sql.Stmt
-	createTransactionsStmt *sql.Stmt
-	getAccountStmt         *sql.Stmt
-	getTransactionsStmt    *sql.Stmt
+	db                      DBTX
+	tx                      *sql.Tx
+	createAccountStmt       *sql.Stmt
+	createOperationTypeStmt *sql.Stmt
+	createTransactionsStmt  *sql.Stmt
+	dropAccountStmt         *sql.Stmt
+	dropOperationTypeStmt   *sql.Stmt
+	dropTransactionStmt     *sql.Stmt
+	getAccountStmt          *sql.Stmt
+	getOperationTypesStmt   *sql.Stmt
+	getTransactionsStmt     *sql.Stmt
 }
 
 func (q *Queries) WithTx(tx *sql.Tx) *Queries {
 	return &Queries{
-		db:                     tx,
-		tx:                     tx,
-		createAccountStmt:      q.createAccountStmt,
-		createTransactionsStmt: q.createTransactionsStmt,
-		getAccountStmt:         q.getAccountStmt,
-		getTransactionsStmt:    q.getTransactionsStmt,
+		db:                      tx,
+		tx:                      tx,
+		createAccountStmt:       q.createAccountStmt,
+		createOperationTypeStmt: q.createOperationTypeStmt,
+		createTransactionsStmt:  q.createTransactionsStmt,
+		dropAccountStmt:         q.dropAccountStmt,
+		dropOperationTypeStmt:   q.dropOperationTypeStmt,
+		dropTransactionStmt:     q.dropTransactionStmt,
+		getAccountStmt:          q.getAccountStmt,
+		getOperationTypesStmt:   q.getOperationTypesStmt,
+		getTransactionsStmt:     q.getTransactionsStmt,
 	}
 }

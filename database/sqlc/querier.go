@@ -2,7 +2,7 @@
 // versions:
 //   sqlc v1.17.0
 
-package main
+package database
 
 import (
 	"context"
@@ -10,8 +10,13 @@ import (
 
 type Querier interface {
 	CreateAccount(ctx context.Context, documentNumber int64) (Account, error)
+	CreateOperationType(ctx context.Context, arg CreateOperationTypeParams) (OperationType, error)
 	CreateTransactions(ctx context.Context, arg CreateTransactionsParams) (Transaction, error)
+	DropAccount(ctx context.Context, id int64) error
+	DropOperationType(ctx context.Context, id int64) error
+	DropTransaction(ctx context.Context, id int64) error
 	GetAccount(ctx context.Context, id int64) (Account, error)
+	GetOperationTypes(ctx context.Context, id int64) (OperationType, error)
 	GetTransactions(ctx context.Context, id int64) (Transaction, error)
 }
 

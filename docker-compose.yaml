@@ -1,0 +1,22 @@
+version: '3.1'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-root} 
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme} 
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: always
+
+networks:
+    postgres:
+        driver: bridge
+volumes:
+    postgres:

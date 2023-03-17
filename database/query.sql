@@ -21,3 +21,28 @@ RETURNING *;
 -- name: GetTransactions :one
 SELECT * FROM transactions
 WHERE id = $1 LIMIT 1;
+
+-- name: DropAccount :exec
+DELETE FROM accounts 
+WHERE accounts.id = $1;
+
+-- name: GetOperationTypes :one
+SELECT * FROM operation_types
+WHERE id = $1 LIMIT 1;
+
+-- name: DropTransaction :exec
+DELETE FROM transactions 
+WHERE transactions.id = $1;
+
+-- name: CreateOperationType :one
+INSERT INTO operation_types (
+  multiplier, description
+) VALUES (
+  $1, $2
+)
+RETURNING *;
+
+-- name: DropOperationType :exec
+DELETE FROM operation_types 
+WHERE operation_types.id = $1;
+
