@@ -1,0 +1,10 @@
+basePath: /v2
+host: payments.swagger.io
+info:
+  contact:
+    name: Matheus Morgado
+  description: This project has symple operations for payments transactions
+  title: Swagger Payment System
+  version: "1.0"
+paths: {}
+swagger: "2.0"

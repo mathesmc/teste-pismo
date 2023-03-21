@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS "operation_types" (
 
 CREATE TABLE IF NOT EXISTS "transactions" (
   "id" bigserial PRIMARY KEY,
-  "account_id" int NOT NULL,
-  "operation_type_id" int NOT NULL,
+  "account_id" bigint NOT NULL,
+  "operation_type_id" bigint NOT NULL,
   "amount" FLOAT NOT NULL,
   "event_date" timestamp DEFAULT (now()),
   "created_at" timestamp DEFAULT (now()),

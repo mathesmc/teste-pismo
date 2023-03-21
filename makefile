@@ -1,4 +1,4 @@
-DB_URL=postgresql://root:secret@localhost:5432/mini_bank?sslmode=disable
+DB_URL=postgresql://root:secret@localhost:5432/payments?sslmode=disable
 
 
 create_postgres:
@@ -14,18 +14,13 @@ dropdb:
 	docker exec -it postgres dropdb mini_bank
 
 migrateup:
-	migrate -path database/migration -database "$(DB_URL)" -verbose up
+	migrate -path db/migration -database "$(DB_URL)" -verbose up
 
 migratedown:
-	migrate -path database/migration -database "$(DB_URL)" -verbose down
+	migrate -path db/migration -database "$(DB_URL)" -verbose down
 
 new_migration:
-	migrate create -ext sql -dir database/migration -seq "$(NAME)"
-db_docs:
-	dbdocs build doc/db.dbml
-
-db_schema:
-	dbml2sql --postgres -o doc/schema.sql doc/db.dbml
+	migrate create -ext sql -dir db/migration -seq "$(NAME)"
 
 sqlc:
 	sqlc generate
@@ -33,8 +28,8 @@ sqlc:
 test:
 	go test -v -cover -short ./...
 
-server:
+run:
 	go run main.go
 
-.PHONY:  start_postgres run_postgres createdb dropdb migrateup migratedown  new_migration db_docs db_schema sqlc test
+.PHONY:  start_postgres run_postgres createdb dropdb migrateup migratedown  new_migration sqlc test
 

@@ -1,11 +1,12 @@
-package database
+package db
 
 import (
 	"database/sql"
-	_ "github.com/lib/pq"
 	"log"
 	"os"
 	"testing"
+
+	_ "github.com/lib/pq"
 )
 
 var (
@@ -21,7 +22,7 @@ func TestMain(m *testing.M) {
 	if err != nil {
 		log.Fatal("cannot connect to db because:", err)
 	}
-
+	defer db.Close()
 	testQueries = New(db)
 	defer db.Close()
 

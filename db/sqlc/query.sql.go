@@ -3,7 +3,7 @@
 //   sqlc v1.17.0
 // source: query.sql
 
-package database
+package db
 
 import (
 	"context"
@@ -65,12 +65,6 @@ INSERT INTO transactions (
 )
 RETURNING id, account_id, operation_type_id, amount, event_date, created_at, updated_at
 `
-
-type CreateTransactionsParams struct {
-	AccountID       int32   `json:"account_id"`
-	OperationTypeID int32   `json:"operation_type_id"`
-	Amount          float64 `json:"amount"`
-}
 
 func (q *Queries) CreateTransactions(ctx context.Context, arg CreateTransactionsParams) (Transaction, error) {
 	row := q.queryRow(ctx, q.createTransactionsStmt, createTransactions, arg.AccountID, arg.OperationTypeID, arg.Amount)

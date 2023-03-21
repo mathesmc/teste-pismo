@@ -1,0 +1,14 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This project has symple operations for payments transactions",
+        "title": "Swagger Payment System",
+        "contact": {
+            "name": "Matheus Morgado"
+        },
+        "version": "1.0"
+    },
+    "host": "payments.swagger.io",
+    "basePath": "/v2",
+    "paths": {}
+}
